@@ -1,6 +1,6 @@
 [package]
 name = "helpers"
-description = ""
+description = "self use helper library"
 version = "0.1.0"
 edition = "2021"
 authors = ["ush2a"]
