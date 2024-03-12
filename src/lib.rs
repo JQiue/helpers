@@ -1,4 +1,4 @@
-mod rand {
+pub mod rand {
     use rand::Rng;
     use std::ops::Range;
     pub fn generate_random_between_limits(range: Range<i32>) -> i32 {
