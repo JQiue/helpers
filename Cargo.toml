@@ -1,0 +1,10 @@
+[package]
+name = "helpers"
+version = "0.1.0"
+edition = "2021"
+authors = ["ush2a"]
+license = "MIT"
+readme = "README.md"
+
+[dependencies]
+rand = "0.8.5"
