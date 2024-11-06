@@ -1,5 +1,6 @@
 use rand::Rng;
 
+/// .
 pub fn min_max(min: i32, max: i32) -> i32 {
   rand::thread_rng().gen_range(min..=max)
 }
