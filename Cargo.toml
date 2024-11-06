@@ -8,12 +8,13 @@ license = "MIT"
 readme = "README.md"
 
 [dependencies]
-rand = "0.8.5"
-jsonwebtoken = "9.3.0"
-serde = { version = "1.0.214", features = ["derive"] }
-serde_json = "1.0.132"
-time = "0.3.36"
-rust-argon2 = "2.1.0"
+rand = "=0.8.5"
+jsonwebtoken = "=9.3.0"
+serde = { version = "=1.0.204", features = ["derive"] }
+serde_json = "=1.0.115"
+rust-argon2 = "=2.1.0"
+chrono = "=0.4.37"
+nanoid = "=0.4.0"
 
 [features]
 rand = []
