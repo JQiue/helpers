@@ -28,16 +28,16 @@ pub mod jwt_numeric_date {
   }
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Claims<T>
 where
   T: Serialize,
 {
-  data: T,
+  pub data: T,
   #[serde(with = "jwt_numeric_date")]
-  iat: DateTime<Utc>,
+  pub iat: DateTime<Utc>,
   #[serde(with = "jwt_numeric_date")]
-  exp: DateTime<Utc>,
+  pub exp: DateTime<Utc>,
 }
 
 impl<T> Claims<T>
@@ -52,7 +52,39 @@ where
   }
 }
 
-/// create token
+/// Creates a JWT (JSON Web Token) from the provided data and key, with an expiration time specified in seconds.
+///
+/// # Parameters
+///
+/// * `data` - The data to be included in the JWT claims. It must implement the `Serialize` and `DeserializeOwned` traits.
+/// * `key` - The secret key used to sign the JWT. It should be a string.
+/// * `expire` - The expiration time of the JWT in seconds from the current time.
+///
+/// # Returns
+///
+/// * `Result<String, jsonwebtoken::errors::Error>` - On success, returns a `Result` containing the JWT as a string.
+///   On error, returns a `Result` containing a `jsonwebtoken::errors::Error`.
+///
+/// # Example
+///
+/// ```rust
+/// use serde::{Deserialize, Serialize};
+/// use helpers::jwt::{sign, Claims};
+///
+/// #[derive(Debug, Serialize, Deserialize)]
+/// struct Data {
+///     user_id: String,
+///     is_plus: i8,
+/// }
+///
+/// let key = "test_key".to_string();
+/// let data = Data {
+///     user_id: "id_001".to_string(),
+///     is_plus: 1,
+/// };
+/// let token = sign::<Data>(data, key.clone(), 7).unwrap();
+/// println!("{token:?}");
+/// ```
 pub fn sign<T>(
   data: T,
   key: String,
@@ -66,7 +98,23 @@ where
   encode(&Header::default(), &claims, &key)
 }
 
-/// verify token
+/// Verifies and decodes a JWT (JSON Web Token) using the provided token and key.
+///
+/// # Parameters
+///
+/// * `token` - The JWT string to be verified and decoded.
+/// * `key` - The secret key used to verify the JWT's signature.
+///
+/// # Returns
+///
+/// * `Result<jsonwebtoken::TokenData<Claims<T>>, jsonwebtoken::errors::Error>` - On success, returns a `Result`
+///   containing the decoded token data wrapped in `jsonwebtoken::TokenData`. The `Claims<T>` struct contains
+///   the custom data, issued at time, and expiration time. On error, returns a `Result` containing a
+///   `jsonwebtoken::errors::Error`.
+///
+/// # Type Parameters
+///
+/// * `T` - The type of the custom data stored in the JWT claims. It must implement both `Serialize` and `DeserializeOwned` traits.
 pub fn verify<T>(
   token: String,
   key: String,
@@ -75,14 +123,6 @@ where
   T: Serialize + DeserializeOwned,
 {
   let key = DecodingKey::from_secret(key.as_ref());
-  // match decode::<Claims<T>>(&token, &key, &Validation::new(Algorithm::HS256)) {
-  //   Ok(c) => c,
-  //   Err(err) => match *err.kind() {
-  //     ErrorKind::InvalidToken => panic!("Token is invalid"), // Example on how to handle a specific error
-  //     ErrorKind::InvalidIssuer => panic!("Issuer is invalid"), // Example on how to handle a specific error
-  //     _ => panic!("Some other errors"),
-  //   },
-  // }
   decode(&token, &key, &Validation::new(Algorithm::HS256))
 }
 
@@ -103,8 +143,9 @@ mod tests {
       is_plus: 1,
     };
     let token = sign::<Data>(data, key.clone(), 7).unwrap();
-    let matches = verify::<Data>(token.clone(), key);
     println!("{token:?}");
-    println!("{matches:?}");
+    let matches = verify::<Data>(token.clone(), key);
+    let data = matches.unwrap();
+    println!("{:?}", data.claims);
   }
 }

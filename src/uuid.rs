@@ -31,7 +31,34 @@ impl Alphabet {
   ];
 }
 
-/// generate uuid
+/// Generates a Universally Unique Identifier (UUID) using a custom alphabet and length.
+///
+/// This function uses the `nanoid` crate to generate a UUID. The `alphabet` parameter specifies the
+/// characters to be used in the UUID. The `length` parameter determines the number of characters in the
+/// generated UUID.
+///
+/// # Parameters
+///
+/// * `alphabet`: A slice of characters representing the custom alphabet to be used in the UUID.
+/// * `length`: An unsigned integer representing the desired length of the generated UUID.
+///
+/// # Returns
+///
+/// This function returns a `String` containing the generated UUID.
+///
+/// # Examples
+///
+/// ```rust
+/// use helpers::uuid::{Alphabet, uuid};
+///
+/// // Generate a UUID using the default alphabet and length 8
+/// let default_uuid = uuid(&Alphabet::DEFAULT, 8);
+/// println!("Default UUID: {}", default_uuid);
+///
+/// // Generate a UUID using only lowercase letters and length 10
+/// let lowercase_uuid = uuid(&Alphabet::LOWER, 10);
+/// println!("Lowercase UUID: {}", lowercase_uuid);
+/// ```
 pub fn uuid(alphabet: &[char], length: usize) -> String {
   nanoid::nanoid!(length, alphabet)
 }
