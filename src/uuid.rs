@@ -16,6 +16,12 @@ impl Alphabet {
     'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
   ];
 
+  /// numbers + lowercase
+  pub const NUMBERS_LOWER: [char; 36] = [
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+    'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+  ];
+
   /// safety character. Does not contain confusing characters
   pub const SAFE: [char; 32] = [
     '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'M',
@@ -63,10 +69,31 @@ pub fn uuid(alphabet: &[char], length: usize) -> String {
   nanoid::nanoid!(length, alphabet)
 }
 
+pub fn uuid_segmented(
+  alphabet: &[char],
+  length: usize,
+  separator: char,
+  segments: usize,
+) -> String {
+  let segment_length = length / segments;
+  let remainder = length % segments;
+  let mut segments_vec = vec![];
+  for i in 0..segments {
+    let current_segment_length = if i == segments - 1 {
+      segment_length + remainder
+    } else {
+      segment_length
+    };
+    let segment = nanoid::nanoid!(current_segment_length, alphabet);
+    segments_vec.push(segment);
+  }
+  segments_vec.join(&separator.to_string())
+}
+
 #[cfg(test)]
 mod tests {
   use super::uuid;
-  use crate::uuid::Alphabet;
+  use crate::uuid::{uuid_segmented, Alphabet};
 
   #[test]
   fn test_uuid() {
@@ -82,6 +109,10 @@ mod tests {
     let upper = uuid(&Alphabet::UPPER, 8);
     println!("Uppercase only: {}", upper);
 
+    // numbers + lowercase
+    let numbers_lower = uuid(&Alphabet::NUMBERS_LOWER, 8);
+    println!("Numbers and Lowercase: {}", numbers_lower);
+
     // test safety character
     let safe = uuid(&Alphabet::SAFE, 8);
     println!("Safe chars: {}", safe);
@@ -89,5 +120,12 @@ mod tests {
     // test the default character set
     let default = uuid(&Alphabet::DEFAULT, 8);
     println!("Default chars: {}", default);
+
+    // test the delimited UUID
+    let segmented1 = uuid_segmented(&Alphabet::DEFAULT, 15, '-', 3);
+    println!("Segmented UUID (3 parts): {}", segmented1);
+
+    let segmented2 = uuid_segmented(&Alphabet::SAFE, 16, '~', 5);
+    println!("Segmented UUID (5 parts): {}", segmented2);
   }
 }

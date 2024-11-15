@@ -1,3 +1,5 @@
+//! Provides a variety of common hash functions
+
 pub fn md5() {}
 
 pub fn sha1() {}
