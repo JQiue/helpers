@@ -1,5 +1,11 @@
 //! Provides a variety of common hash functions
 
+/// Computes the MD5 hash of input data.
+///
+/// This function calculates the MD5 (Message Digest algorithm 5) hash,
+/// which produces a 128-bit (16-byte) hash value. Note that MD5 is
+/// considered cryptographically broken and should not be used for
+/// security-critical applications.
 pub fn md5() {}
 
 pub fn sha1() {}

@@ -22,6 +22,20 @@ impl Alphabet {
     'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
   ];
 
+  /// numbers + uppercase
+  pub const NUMBERS_UPPER: [char; 36] = [
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
+    'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+  ];
+
+  /// numbers + lowercase + uppercase
+  pub const NUMBERS_LOWER_UPPER: [char; 62] = [
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+    'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B',
+    'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
+    'V', 'W', 'X', 'Y', 'Z',
+  ];
+
   /// safety character. Does not contain confusing characters
   pub const SAFE: [char; 32] = [
     '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'M',
@@ -69,6 +83,35 @@ pub fn uuid(alphabet: &[char], length: usize) -> String {
   nanoid::nanoid!(length, alphabet)
 }
 
+/// Generates a Universally Unique Identifier (UUID) using a custom alphabet, length, and separator.
+/// The UUID is segmented into the specified number of parts, separated by the provided character.
+///
+/// This function uses the `nanolgo
+/// id` crate to generate a UUID. The `alphabet` parameter specifies the
+/// characters to be used in the UUID. The `length` parameter determines the total number of characters in
+/// the generated UUID. The `separator` parameter is used to separate the UUID into segments. The
+/// `segments` parameter determines the number of segments the UUID should be divided into.
+///
+/// # Parameters
+///
+/// * `alphabet`: A slice of characters representing the custom alphabet to be used in the UUID.
+/// * `length`: An unsigned integer representing the desired total length of the generated UUID.
+/// * `separator`: A character used to separate the UUID into segments.
+/// * `segments`: An unsigned integer representing the number of segments the UUID should be divided into.
+///
+/// # Returns
+///
+/// This function returns a `String` containing the generated UUID, segmented by the provided separator.
+///
+/// # Examples
+///
+/// ```rust
+/// use helpers::uuid::{Alphabet, uuid_segmented};
+///
+/// // Generate a segmented UUID using the default alphabet, length 15, separator '-', and 3 segments
+/// let segmented_uuid = uuid_segmented(&Alphabet::DEFAULT, 15, '-', 3);
+/// println!("Segmented UUID: {}", segmented_uuid);
+/// ```
 pub fn uuid_segmented(
   alphabet: &[char],
   length: usize,
