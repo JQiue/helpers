@@ -19,6 +19,7 @@ rust-argon2 = "=2.1.0"
 chrono = "=0.4.37"
 nanoid = "=0.4.0"
 bcrypt = "=0.15.1"
+md5 = "=0.7.0"
 
 [features]
 default = []
