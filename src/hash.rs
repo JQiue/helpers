@@ -19,7 +19,13 @@ pub fn blake3() {}
 pub fn escrypt() {}
 
 /// for password
-pub fn bcrypt() {}
+pub fn bcrypt(password: &[u8]) -> Result<String, bcrypt::BcryptError> {
+  bcrypt::hash(password, bcrypt::DEFAULT_COST)
+}
+
+pub fn verify_bcrypt(password: &[u8], hash: String) -> Result<bool, bcrypt::BcryptError> {
+  bcrypt::verify(password, &hash)
+}
 
 /// for password
 pub fn pbkdf2() {}
@@ -60,12 +66,17 @@ pub fn verify_argon2(hash: String, password: &[u8]) -> Result<bool, argon2::Erro
 
 #[cfg(test)]
 mod tests {
-  use crate::hash::{argon2, verify_argon2};
+  use crate::hash::{argon2, bcrypt, verify_argon2, verify_bcrypt};
   #[test]
   fn test_argon2() {
-    let password = b"aurora";
+    let password = b"my_secure_password";
     let hash = argon2(password, b"ohersalt").unwrap();
-    let matches = verify_argon2(hash, password).unwrap();
-    assert!(matches)
+    assert!(verify_argon2(hash, password).unwrap())
+  }
+  #[test]
+  fn test_bcrypt() {
+    let password = b"my_secure_password";
+    let hashed_password = bcrypt(password).unwrap();
+    assert!(verify_bcrypt(password, hashed_password).unwrap());
   }
 }
