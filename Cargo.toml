@@ -6,8 +6,8 @@ edition = "2021"
 authors = ["ush2a"]
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/ush2a/helpers"
-repository = "https://github.com/ush2a/helpers.git"
+homepage = "https://github.com/JQiue/helpers"
+repository = "https://github.com/JQiue/helpers.git"
 documentation = "https://docs.rs/helpers/latest/helpers/"
 
 [dependencies]
