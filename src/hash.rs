@@ -34,7 +34,44 @@ pub fn sha256() {}
 
 pub fn sha512() {}
 
-pub fn blake3() {}
+/// Compute the BLAKE3 hash of input data
+///
+/// 计算输入数据的 BLAKE3 哈希值
+///
+/// BLAKE3 is a modern cryptographic hash function that provides high performance and security
+///
+/// BLAKE3 是一个现代的加密哈希函数，提供高性能和安全性
+///
+/// # Parameters / 参数
+///
+/// * `data` - 要计算哈希的输入字节切片引用
+///   Input byte slice reference to be hashed
+///
+/// # Returns / 返回值
+///
+/// 返回 BLAKE3 哈希的十六进制字符串表示
+/// Returns the hexadecimal string representation of the BLAKE3 hash
+///
+/// # Examples / 示例
+///
+/// ```rust
+/// let input = b"hello world";
+/// let hash = blake3(input);
+/// println!("BLAKE3 hash: {}", hash);
+/// ```
+///
+/// # Notes / 注意
+///
+/// - BLAKE3 is a fast and secure hash algorithm
+///   BLAKE3 是一个快速且安全的哈希算法
+/// - The output is a fixed-length 256-bit hash (64-character hexadecimal string)
+///   输出是定长的 256 位（64个字符的十六进制字符串）
+/// - Always produces the same hash for the same input
+///   对于相同的输入，总是产生相同的哈希值
+pub fn blake3(data: &[u8]) -> String {
+  let hased = blake3::hash(data);
+  hased.to_string()
+}
 
 pub fn escrypt() {}
 
@@ -158,7 +195,7 @@ pub fn verify_argon2(hash: String, password: &[u8]) -> Result<bool, argon2::Erro
 
 #[cfg(test)]
 mod tests {
-  use crate::hash::{argon2, bcrypt, md5, verify_argon2, verify_bcrypt};
+  use crate::hash::{argon2, bcrypt, blake3, md5, verify_argon2, verify_bcrypt};
   #[test]
   fn test_argon2() {
     let password = b"my_secure_password";
@@ -176,5 +213,11 @@ mod tests {
     let data = b"hello world";
     let md5_hash = md5(data);
     assert_eq!(md5_hash, md5(data));
+  }
+  #[test]
+  fn test_blake3() {
+    let data = b"hello world";
+    let hased = blake3(data);
+    assert_eq!(hased, blake3(data));
   }
 }
