@@ -2,7 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [0.4.0] - 2024-12-06
+
+### 🚀 Features
+
+- Impl bcrypt and verify_bcrypt for hash mod
+- Impl md5 for hash mod
+- Impl blake3 for hash mod
+
+### ⚙️ Miscellaneous Tasks
+
+- Update homepage and repository
+- Add release.toml
+
+## [0.3.0] - 2024-11-28
 
 ### 🚀 Features
 
@@ -34,6 +47,8 @@ All notable changes to this project will be documented in this file.
 - 0.1.4
 - V0.2.0
 - V0.2.1
+- Supplement metedata and add the CHANGELOG.md generation tool
+- Release helpers version 0.3.0
 
 ### Init
 
