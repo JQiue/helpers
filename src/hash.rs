@@ -1,5 +1,7 @@
 //! Provides a variety of common hash functions
 
+use md5::Digest;
+
 /// Computes the MD5 hash of the input byte slice
 ///
 /// # Parameters
@@ -20,8 +22,10 @@
 /// # Notes
 ///
 /// This function uses the `compute` method from the `md5` crate to calculate the MD5 hash
-pub fn md5(data: &[u8]) -> md5::Digest {
-  md5::compute(data)
+pub fn md5(data: &[u8]) -> String {
+  let mut hasher = md5::Md5::new();
+  hasher.update(data);
+  base16ct::lower::encode_string(&hasher.finalize())
 }
 
 pub fn sha1() {}
@@ -171,6 +175,6 @@ mod tests {
   fn test_md5() {
     let data = b"hello world";
     let md5_hash = md5(data);
-    assert_eq!(md5_hash, md5::compute(data));
+    assert_eq!(md5_hash, md5(data));
   }
 }
