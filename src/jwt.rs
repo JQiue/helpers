@@ -3,6 +3,8 @@ use jsonwebtoken::{decode, encode, Algorithm, DecodingKey, EncodingKey, Header, 
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
 
+pub use jsonwebtoken::errors::{Error, ErrorKind};
+
 pub mod jwt_numeric_date {
   //! Custom serialization of OffsetDateTime to conform with the JWT spec (RFC 7519 section 2, "Numeric Date")
   use chrono::{DateTime, TimeZone, Utc};
