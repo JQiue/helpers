@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 
 - Update homepage and repository
 - Add release.toml
+- Release helpers version 0.4.0
 
 ## [0.3.0] - 2024-11-28
 
