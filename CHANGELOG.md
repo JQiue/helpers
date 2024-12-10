@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.1] - 2024-12-09
+
+### ⚙️ Miscellaneous Tasks
+
+- Release helpers version 0.4.1
+
 ## [0.4.0] - 2024-12-06
 
 ### 🚀 Features
