@@ -105,6 +105,15 @@ pub fn bcrypt(password: &[u8]) -> Result<String, bcrypt::BcryptError> {
   bcrypt::hash(password, bcrypt::DEFAULT_COST)
 }
 
+pub fn bcrypt_custom(
+  password: &[u8],
+  cost: u32,
+  salt: [u8; 16],
+  version: bcrypt::Version,
+) -> Result<String, BcryptError> {
+  Ok(bcrypt::hash_with_salt(password, cost, salt)?.format_for_version(version))
+}
+
 /// Verifies a password against a bcrypt hash
 ///
 /// # Parameters
@@ -198,7 +207,9 @@ pub fn verify_argon2(hash: String, password: &[u8]) -> Result<bool, argon2::Erro
 
 #[cfg(test)]
 mod tests {
-  use crate::hash::{argon2, bcrypt, blake3, md5, verify_argon2, verify_bcrypt};
+  use rand::Rng;
+
+  use crate::hash::{argon2, bcrypt, bcrypt_custom, blake3, md5, verify_argon2, verify_bcrypt};
   #[test]
   fn test_argon2() {
     let password = b"my_secure_password";
@@ -209,6 +220,13 @@ mod tests {
   fn test_bcrypt() {
     let password = b"my_secure_password";
     let hashed_password = bcrypt(password).unwrap();
+    assert!(verify_bcrypt(password, hashed_password).unwrap());
+  }
+  #[test]
+  fn test_bcrypt_custom() {
+    let password = b"my_secure_password";
+    let salt = rand::thread_rng().gen::<[u8; 16]>();
+    let hashed_password = bcrypt_custom(password, 8, salt, bcrypt::Version::TwoA).unwrap();
     assert!(verify_bcrypt(password, hashed_password).unwrap());
   }
   #[test]
