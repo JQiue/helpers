@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.5.1](https://github.com/JQiue/helpers/compare/v0.4.2..0.5.1) - 2025-01-07
+## [0.5.2](https://github.com/JQiue/helpers/compare/v0.5.1..0.5.2) - 2025-01-07
+
+### 🚜 Refactor
+
+- *(hash)* Update bcrypt_custom to remove salt parameter - ([0d770fa](https://github.com/JQiue/helpers/commit/0d770fac529fef48d022adc99c1c975e3fecb493))
+
+## [0.5.1](https://github.com/JQiue/helpers/compare/v0.4.2..v0.5.1) - 2025-01-07
 
 ### 🚀 Features
 
@@ -17,6 +23,7 @@ All notable changes to this project will be documented in this file.
 
 - *(release)* Update changelog configuration and remove cliff.toml - ([faf46ae](https://github.com/JQiue/helpers/commit/faf46aea33f03aa9edb29ccb5da476468de9ccde))
 - Release helpers version 0.5.0 - ([6d31554](https://github.com/JQiue/helpers/commit/6d31554935f12629f42d1b89660ca1fe5517a215))
+- Release helpers version 0.5.1 - ([2c8fdc8](https://github.com/JQiue/helpers/commit/2c8fdc831925dfb4c55494ffeac9d4ea190e16c9))
 
 ## [0.4.2](https://github.com/JQiue/helpers/compare/v0.4.1..v0.4.2) - 2024-12-10
 
