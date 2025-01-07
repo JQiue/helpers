@@ -2,11 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.5.0](https://github.com/JQiue/helpers/compare/v0.4.2..0.5.0) - 2025-01-07
+## [0.5.1](https://github.com/JQiue/helpers/compare/v0.4.2..0.5.1) - 2025-01-07
 
 ### 🚀 Features
 
 - *(hash)* Add custom bcrypt hashing function - ([147ec14](https://github.com/JQiue/helpers/commit/147ec145cdb2461bf3576b8751f0918aa5cb446c))
+- *(hash)* Expose bcrypt version for external use - ([5e70a32](https://github.com/JQiue/helpers/commit/5e70a32a3228b46e17afcd6d5f0dd431eca51bba))
 
 ### 📚 Documentation
 
@@ -15,6 +16,7 @@ All notable changes to this project will be documented in this file.
 ### ⚙️ Miscellaneous Tasks
 
 - *(release)* Update changelog configuration and remove cliff.toml - ([faf46ae](https://github.com/JQiue/helpers/commit/faf46aea33f03aa9edb29ccb5da476468de9ccde))
+- Release helpers version 0.5.0 - ([6d31554](https://github.com/JQiue/helpers/commit/6d31554935f12629f42d1b89660ca1fe5517a215))
 
 ## [0.4.2](https://github.com/JQiue/helpers/compare/v0.4.1..v0.4.2) - 2024-12-10
 
