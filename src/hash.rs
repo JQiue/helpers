@@ -4,6 +4,7 @@ use md5::Digest;
 
 pub use argon2::Error;
 pub use bcrypt::BcryptError;
+pub use bcrypt::Version;
 
 /// Computes the MD5 hash of the input byte slice
 ///
