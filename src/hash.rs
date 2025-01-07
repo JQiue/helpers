@@ -47,13 +47,13 @@ pub fn sha512() {}
 ///
 /// # Parameters / 参数
 ///
-/// * `data` - 要计算哈希的输入字节切片引用
-///   Input byte slice reference to be hashed
+/// * `data` - Input byte slice reference to be hashed / 要计算哈希的输入字节切片引用
 ///
 /// # Returns / 返回值
 ///
-/// 返回 BLAKE3 哈希的十六进制字符串表示
 /// Returns the hexadecimal string representation of the BLAKE3 hash
+///
+/// 返回 BLAKE3 哈希的十六进制字符串表示
 ///
 /// # Examples / 示例
 ///
@@ -65,12 +65,9 @@ pub fn sha512() {}
 ///
 /// # Notes / 注意
 ///
-/// - BLAKE3 is a fast and secure hash algorithm
-///   BLAKE3 是一个快速且安全的哈希算法
-/// - The output is a fixed-length 256-bit hash (64-character hexadecimal string)
-///   输出是定长的 256 位（64个字符的十六进制字符串）
-/// - Always produces the same hash for the same input
-///   对于相同的输入，总是产生相同的哈希值
+/// - BLAKE3 is a fast and secure hash algorithm / BLAKE3 是一个快速且安全的哈希算法
+/// - The output is a fixed-length 256-bit hash (64-character hexadecimal string) / 输出是定长的 256 位（64个字符的十六进制字符串）
+/// - Always produces the same hash for the same input / 对于相同的输入，总是产生相同的哈希值
 pub fn blake3(data: &[u8]) -> String {
   let hased = blake3::hash(data);
   hased.to_string()
@@ -105,6 +102,33 @@ pub fn bcrypt(password: &[u8]) -> Result<String, bcrypt::BcryptError> {
   bcrypt::hash(password, bcrypt::DEFAULT_COST)
 }
 
+/// This function generates a bcrypt hash using a custom salt and version
+///
+/// 使用自定义盐值和版本生成 bcrypt 哈希
+///
+/// # Parameters / 参数
+///
+/// * `password` - The password to hash, as a byte slice / 要哈希的密码，作为字节切片
+/// * `cost` - The cost parameter for hashing, indicating the computational complexity / 哈希成本参数，表示计算复杂度
+/// * `salt` - The 16-byte salt used for hashing / 用于哈希的 16 字节盐值
+/// * `version` - The bcrypt version used to format the hash / bcrypt 版本，用于格式化哈希
+///
+/// # Returns / 返回值
+///
+/// Returns a `Result` containing the bcrypt hash as a string if successful, or a `BcryptError` if an error occurs.
+///
+/// 返回一个包含 bcrypt 哈希的 `Result`，如果成功则包含哈希字符串，否则包含 `BcryptError`
+///
+/// # Example / 示例
+///
+/// ```
+/// let password = b"my_password";
+/// let cost = 12;
+/// let salt = [0u8; 16];
+/// let version = bcrypt::Version::TwoB;
+/// let hash = bcrypt_custom(password, cost, salt, version).unwrap();
+/// println!("bcrypt hash: {}", hash);
+/// ```
 pub fn bcrypt_custom(
   password: &[u8],
   cost: u32,
