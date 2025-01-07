@@ -103,15 +103,14 @@ pub fn bcrypt(password: &[u8]) -> Result<String, bcrypt::BcryptError> {
   bcrypt::hash(password, bcrypt::DEFAULT_COST)
 }
 
-/// This function generates a bcrypt hash using a custom salt and version
+/// This function generates a bcrypt hash using a custom cost and version
 ///
-/// 使用自定义盐值和版本生成 bcrypt 哈希
+/// 使用自定义成本和版本生成 bcrypt 哈希
 ///
 /// # Parameters / 参数
 ///
 /// * `password` - The password to hash, as a byte slice / 要哈希的密码，作为字节切片
 /// * `cost` - The cost parameter for hashing, indicating the computational complexity / 哈希成本参数，表示计算复杂度
-/// * `salt` - The 16-byte salt used for hashing / 用于哈希的 16 字节盐值
 /// * `version` - The bcrypt version used to format the hash / bcrypt 版本，用于格式化哈希
 ///
 /// # Returns / 返回值
@@ -133,10 +132,9 @@ pub fn bcrypt(password: &[u8]) -> Result<String, bcrypt::BcryptError> {
 pub fn bcrypt_custom(
   password: &[u8],
   cost: u32,
-  salt: [u8; 16],
   version: bcrypt::Version,
 ) -> Result<String, BcryptError> {
-  Ok(bcrypt::hash_with_salt(password, cost, salt)?.format_for_version(version))
+  Ok(bcrypt::hash_with_result(password, cost)?.format_for_version(version))
 }
 
 /// Verifies a password against a bcrypt hash
@@ -232,8 +230,6 @@ pub fn verify_argon2(hash: String, password: &[u8]) -> Result<bool, argon2::Erro
 
 #[cfg(test)]
 mod tests {
-  use rand::Rng;
-
   use crate::hash::{argon2, bcrypt, bcrypt_custom, blake3, md5, verify_argon2, verify_bcrypt};
   #[test]
   fn test_argon2() {
@@ -250,8 +246,7 @@ mod tests {
   #[test]
   fn test_bcrypt_custom() {
     let password = b"my_secure_password";
-    let salt = rand::thread_rng().gen::<[u8; 16]>();
-    let hashed_password = bcrypt_custom(password, 8, salt, bcrypt::Version::TwoA).unwrap();
+    let hashed_password = bcrypt_custom(password, 8, bcrypt::Version::TwoA).unwrap();
     assert!(verify_bcrypt(password, hashed_password).unwrap());
   }
   #[test]
