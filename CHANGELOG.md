@@ -2,11 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.5.2](https://github.com/JQiue/helpers/compare/v0.5.1..0.5.2) - 2025-01-07
+## [0.5.3](https://github.com/JQiue/helpers/compare/v0.5.2..0.5.3) - 2025-01-18
+
+### ⚡ Performance
+
+- *(hash)* Optimize bcrypt_custom function for better performance - ([7fe7309](https://github.com/JQiue/helpers/commit/7fe73097c3b04eccf6449926089dc5b2fa6e49a6))
+
+## [0.5.2](https://github.com/JQiue/helpers/compare/v0.5.1..v0.5.2) - 2025-01-07
 
 ### 🚜 Refactor
 
 - *(hash)* Update bcrypt_custom to remove salt parameter - ([0d770fa](https://github.com/JQiue/helpers/commit/0d770fac529fef48d022adc99c1c975e3fecb493))
+
+### ⚙️ Miscellaneous Tasks
+
+- Release helpers version 0.5.2 - ([c31f201](https://github.com/JQiue/helpers/commit/c31f2012adbb4ca5dcde97d5c7b2872baf0b36ce))
 
 ## [0.5.1](https://github.com/JQiue/helpers/compare/v0.4.2..v0.5.1) - 2025-01-07
 
