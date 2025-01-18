@@ -89,7 +89,7 @@ pub fn escrypt() {}
 /// # Examples
 ///
 /// ```rust
-/// let password = b"my_secure_password";
+/// let password = "my_secure_password";
 /// match bcrypt(password) {
 ///     Ok(hash) => println!("Hashed password: {}", hash),
 ///     Err(e) => eprintln!("Hashing failed: {}", e),
@@ -99,7 +99,7 @@ pub fn escrypt() {}
 /// # Notes
 ///
 /// Uses the default bcrypt cost factor for password hashing
-pub fn bcrypt(password: &[u8]) -> Result<String, bcrypt::BcryptError> {
+pub fn bcrypt(password: &str) -> Result<String, bcrypt::BcryptError> {
   bcrypt::hash(password, bcrypt::DEFAULT_COST)
 }
 
@@ -122,15 +122,14 @@ pub fn bcrypt(password: &[u8]) -> Result<String, bcrypt::BcryptError> {
 /// # Example / 示例
 ///
 /// ```
-/// let password = b"my_password";
+/// let password = "my_password";
 /// let cost = 12;
-/// let salt = [0u8; 16];
 /// let version = bcrypt::Version::TwoB;
-/// let hash = bcrypt_custom(password, cost, salt, version).unwrap();
+/// let hash = bcrypt_custom(password, cost, version).unwrap();
 /// println!("bcrypt hash: {}", hash);
 /// ```
 pub fn bcrypt_custom(
-  password: &[u8],
+  password: &str,
   cost: u32,
   version: bcrypt::Version,
 ) -> Result<String, BcryptError> {
@@ -152,16 +151,16 @@ pub fn bcrypt_custom(
 /// # Examples
 ///
 /// ```rust
-/// let password = b"my_password";
+/// let password = "my_password";
 /// let hash = bcrypt(password).unwrap();
-/// match verify_bcrypt(password, hash) {
+/// match verify_bcrypt(password, &hash) {
 ///     Ok(true) => println!("Password verified successfully"),
 ///     Ok(false) => println!("Password verification failed"),
 ///     Err(e) => eprintln!("Verification error: {}", e),
 /// }
 /// ```
-pub fn verify_bcrypt(password: &[u8], hash: String) -> Result<bool, bcrypt::BcryptError> {
-  bcrypt::verify(password, &hash)
+pub fn verify_bcrypt(password: &str, hash: &str) -> Result<bool, bcrypt::BcryptError> {
+  bcrypt::verify(password, hash)
 }
 
 /// for password
@@ -189,12 +188,16 @@ pub fn scrypt() {}
 /// # Example
 ///
 /// ```
-/// let password = b"my_secure_password";
-/// let salt = b"random_salt";
+/// let password = "my_secure_password";
+/// let salt = "random_salt";
 /// let hashed_password = argon2(password, salt)?;
 /// ```
-pub fn argon2(password: &[u8], salt: &[u8]) -> Result<String, argon2::Error> {
-  argon2::hash_encoded(password, salt, &argon2::Config::owasp5())
+pub fn argon2(password: &str, salt: &str) -> Result<String, argon2::Error> {
+  argon2::hash_encoded(
+    password.as_bytes(),
+    salt.as_bytes(),
+    &argon2::Config::owasp5(),
+  )
 }
 
 /// Verifies a password against an Argon2 encoded hash
@@ -212,9 +215,9 @@ pub fn argon2(password: &[u8], salt: &[u8]) -> Result<String, argon2::Error> {
 /// # Examples
 ///
 /// ```rust
-/// let password = b"my_secure_password";
+/// let password = "my_secure_password";
 /// let hash = "some_argon2_encoded_hash";
-/// match verify_argon2(hash.to_string(), password) {
+/// match verify_argon2(hash, password) {
 ///     Ok(true) => println!("Password verified successfully"),
 ///     Ok(false) => println!("Password verification failed"),
 ///     Err(e) => eprintln!("Verification error: {}", e),
@@ -224,8 +227,8 @@ pub fn argon2(password: &[u8], salt: &[u8]) -> Result<String, argon2::Error> {
 /// # Notes
 ///
 /// Uses Argon2's `verify_encoded` method for password verification
-pub fn verify_argon2(hash: String, password: &[u8]) -> Result<bool, argon2::Error> {
-  argon2::verify_encoded(&hash, password)
+pub fn verify_argon2(hash: &str, password: &str) -> Result<bool, argon2::Error> {
+  argon2::verify_encoded(hash, password.as_bytes())
 }
 
 #[cfg(test)]
@@ -233,21 +236,21 @@ mod tests {
   use crate::hash::{argon2, bcrypt, bcrypt_custom, blake3, md5, verify_argon2, verify_bcrypt};
   #[test]
   fn test_argon2() {
-    let password = b"my_secure_password";
-    let hash = argon2(password, b"ohersalt").unwrap();
-    assert!(verify_argon2(hash, password).unwrap())
+    let password = "my_secure_password";
+    let hash = argon2(password, "ohersalt").unwrap();
+    assert!(verify_argon2(&hash, password).unwrap())
   }
   #[test]
   fn test_bcrypt() {
-    let password = b"my_secure_password";
+    let password = "my_secure_password";
     let hashed_password = bcrypt(password).unwrap();
-    assert!(verify_bcrypt(password, hashed_password).unwrap());
+    assert!(verify_bcrypt(password, &hashed_password).unwrap());
   }
   #[test]
   fn test_bcrypt_custom() {
-    let password = b"my_secure_password";
+    let password = "my_secure_password";
     let hashed_password = bcrypt_custom(password, 8, bcrypt::Version::TwoA).unwrap();
-    assert!(verify_bcrypt(password, hashed_password).unwrap());
+    assert!(verify_bcrypt(password, &hashed_password).unwrap());
   }
   #[test]
   fn test_md5() {

@@ -6,18 +6,14 @@ use serde::{Deserialize, Serialize};
 pub use jsonwebtoken::errors::{Error, ErrorKind};
 
 pub mod jwt_numeric_date {
-  //! Custom serialization of OffsetDateTime to conform with the JWT spec (RFC 7519 section 2, "Numeric Date")
   use chrono::{DateTime, TimeZone, Utc};
   use serde::{self, Deserialize, Deserializer, Serializer};
-  /// Serializes an OffsetDateTime to a Unix timestamp (milliseconds since 1970/1/1T00:00:00T)
   pub fn serialize<S>(date: &DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>
   where
     S: Serializer,
   {
     serializer.serialize_i64(date.timestamp())
   }
-
-  /// Attempts to deserialize an i64 and use as a Unix timestamp
   pub fn deserialize<'de, D>(deserializer: D) -> Result<DateTime<Utc>, D::Error>
   where
     D: Deserializer<'de>,
@@ -79,24 +75,24 @@ where
 ///     is_plus: i8,
 /// }
 ///
-/// let key = "test_key".to_string();
+/// let key = "test_key";
 /// let data = Data {
 ///     user_id: "id_001".to_string(),
 ///     is_plus: 1,
 /// };
-/// let token = sign::<Data>(data, key.clone(), 7).unwrap();
+/// let token = sign::<Data>(data, key, 7).unwrap();
 /// println!("{token:?}");
 /// ```
 pub fn sign<T>(
   data: T,
-  key: String,
+  key: &str,
   expire: i64,
 ) -> Result<std::string::String, jsonwebtoken::errors::Error>
 where
   T: Serialize + DeserializeOwned + 'static,
 {
   let claims: Claims<T> = Claims::new(data, expire);
-  let key = EncodingKey::from_secret(key.as_ref());
+  let key = EncodingKey::from_secret(key.as_bytes());
   encode(&Header::default(), &claims, &key)
 }
 
@@ -118,13 +114,13 @@ where
 ///
 /// * `T` - The type of the custom data stored in the JWT claims. It must implement both `Serialize` and `DeserializeOwned` traits.
 pub fn verify<T>(
-  token: String,
-  key: String,
+  token: &str,
+  key: &str,
 ) -> Result<jsonwebtoken::TokenData<Claims<T>>, jsonwebtoken::errors::Error>
 where
   T: Serialize + DeserializeOwned,
 {
-  let key = DecodingKey::from_secret(key.as_ref());
+  let key = DecodingKey::from_secret(key.as_bytes());
   decode(&token, &key, &Validation::new(Algorithm::HS256))
 }
 
@@ -139,14 +135,14 @@ mod tests {
   }
   #[test]
   fn it_works() {
-    let key = "test_key".to_string();
+    let key = "test_key";
     let data = Data {
       user_id: "id_001".to_string(),
       is_plus: 1,
     };
-    let token = sign::<Data>(data, key.clone(), 7).unwrap();
+    let token = sign::<Data>(data, key, 7).unwrap();
     println!("{token:?}");
-    let matches = verify::<Data>(token.clone(), key);
+    let matches = verify::<Data>(&token, key);
     let data = matches.unwrap();
     println!("{:?}", data.claims);
   }
