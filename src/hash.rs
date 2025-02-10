@@ -19,14 +19,14 @@ pub use bcrypt::Version;
 /// # Examples
 ///
 /// ```rust
-/// let input = b"hello world";
+/// let input = "hello world";
 /// let hash = md5(input);
 /// ```
 ///
 /// # Notes
 ///
 /// This function uses the `compute` method from the `md5` crate to calculate the MD5 hash
-pub fn md5(data: &[u8]) -> String {
+pub fn md5(data: &str) -> String {
   let mut hasher = md5::Md5::new();
   hasher.update(data);
   base16ct::lower::encode_string(&hasher.finalize())
@@ -254,9 +254,8 @@ mod tests {
   }
   #[test]
   fn test_md5() {
-    let data = b"hello world";
-    let md5_hash = md5(data);
-    assert_eq!(md5_hash, md5(data));
+    let data = "hello world";
+    assert_eq!(md5(data), md5(data));
   }
   #[test]
   fn test_blake3() {
