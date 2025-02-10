@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.5.4](https://github.com/JQiue/helpers/compare/v0.5.2..0.5.4) - 2025-02-10
+## [0.5.5](https://github.com/JQiue/helpers/compare/v0.5.2..0.5.5) - 2025-02-10
 
 ### 🚜 Refactor
 
@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 ### ⚙️ Miscellaneous Tasks
 
 - Release helpers version 0.5.3 - ([20bc220](https://github.com/JQiue/helpers/commit/20bc220845c254edc13f170f68e9f50f5eaf396c))
+- Release helpers version 0.5.4 - ([e9cd5a9](https://github.com/JQiue/helpers/commit/e9cd5a9c806a2985bed7d10c066c3d517668287d))
 
 ## ❤️ New Contributors
 
