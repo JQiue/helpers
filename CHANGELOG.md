@@ -2,12 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.5.3](https://github.com/JQiue/helpers/compare/v0.5.2..0.5.3) - 2025-01-18
+## [0.5.4](https://github.com/JQiue/helpers/compare/v0.5.2..0.5.4) - 2025-02-10
+
+### 🚜 Refactor
+
+- *(hash)* Change md5 function to accept &str type - ([4be9de5](https://github.com/JQiue/helpers/commit/4be9de556cba7cb7b5cbf365fda0df955b155a41))
 
 ### ⚡ Performance
 
 - *(hash)* Optimize bcrypt_custom function for better performance - ([7fe7309](https://github.com/JQiue/helpers/commit/7fe73097c3b04eccf6449926089dc5b2fa6e49a6))
 
+### ⚙️ Miscellaneous Tasks
+
+- Release helpers version 0.5.3 - ([20bc220](https://github.com/JQiue/helpers/commit/20bc220845c254edc13f170f68e9f50f5eaf396c))
+
+## ❤️ New Contributors
+
+* @JQiue made their first contribution
 ## [0.5.2](https://github.com/JQiue/helpers/compare/v0.5.1..v0.5.2) - 2025-01-07
 
 ### 🚜 Refactor
