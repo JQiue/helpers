@@ -11,17 +11,18 @@ repository = "https://github.com/JQiue/helpers.git"
 documentation = "https://docs.rs/helpers/latest/helpers/"
 
 [dependencies]
-rand = "0.8.5"
-jsonwebtoken = "9.3.0"
-serde = { version = "1.0.204", features = ["derive"] }
-serde_json = "1.0.115"
+rand = "0.9.0"
+jsonwebtoken = "9.3.1"
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.140"
 rust-argon2 = "2.1.0"
-chrono = "0.4.37"
+chrono = "0.4.40"
 nanoid = "0.4.0"
-bcrypt = "0.15.1"
+bcrypt = "0.17.0"
 md-5 = "0.10.6"
 base16ct = { version = "0.2.0", features = ["alloc"] }
-blake3 = "1.5.5"
+blake3 = "1.6.1"
+uuid = "1.15.1"
 
 [features]
 default = []
@@ -29,6 +30,8 @@ rand = []
 jwt = []
 hash = []
 uuid = []
+uuidv4 = ["uuid/v4"]
+uuidv5 = ["uuid/v5"]
 time = []
 
 [package.metadata.docs.rs]

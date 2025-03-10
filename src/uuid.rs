@@ -1,3 +1,7 @@
+use uuid::Uuid;
+
+pub use uuid::Error;
+
 pub struct Alphabet;
 
 impl Alphabet {
@@ -51,68 +55,51 @@ impl Alphabet {
   ];
 }
 
-/// Generates a Universally Unique Identifier (UUID) using a custom alphabet and length.
+/// Generates a NanoID with the given alphabet and length.
 ///
-/// This function uses the `nanoid` crate to generate a UUID. The `alphabet` parameter specifies the
-/// characters to be used in the UUID. The `length` parameter determines the number of characters in the
-/// generated UUID.
+/// # Arguments
 ///
-/// # Parameters
-///
-/// * `alphabet`: A slice of characters representing the custom alphabet to be used in the UUID.
-/// * `length`: An unsigned integer representing the desired length of the generated UUID.
+/// * `alphabet` - The alphabet to use for generating the NanoID.
+/// * `length` - The length of the NanoID to generate.
 ///
 /// # Returns
 ///
-/// This function returns a `String` containing the generated UUID.
+/// A NanoID string.
 ///
-/// # Examples
+/// # Example
 ///
-/// ```rust
-/// use helpers::uuid::{Alphabet, uuid};
-///
-/// // Generate a UUID using the default alphabet and length 8
-/// let default_uuid = uuid(&Alphabet::DEFAULT, 8);
-/// println!("Default UUID: {}", default_uuid);
-///
-/// // Generate a UUID using only lowercase letters and length 10
-/// let lowercase_uuid = uuid(&Alphabet::LOWER, 10);
-/// println!("Lowercase UUID: {}", lowercase_uuid);
 /// ```
-pub fn uuid(alphabet: &[char], length: usize) -> String {
+/// use helpers::uuid::{nanoid, Alphabet};
+///
+/// let id = nanoid(&Alphabet::NUMBERS, 8);
+/// println!("Generated NanoID: {}", id);
+/// ```
+pub fn nanoid(alphabet: &[char], length: usize) -> String {
   nanoid::nanoid!(length, alphabet)
 }
 
-/// Generates a Universally Unique Identifier (UUID) using a custom alphabet, length, and separator.
-/// The UUID is segmented into the specified number of parts, separated by the provided character.
+/// Generates a segmented NanoID with the given alphabet, length, separator, and number of segments.
 ///
-/// This function uses the `nanolgo
-/// id` crate to generate a UUID. The `alphabet` parameter specifies the
-/// characters to be used in the UUID. The `length` parameter determines the total number of characters in
-/// the generated UUID. The `separator` parameter is used to separate the UUID into segments. The
-/// `segments` parameter determines the number of segments the UUID should be divided into.
+/// # Arguments
 ///
-/// # Parameters
-///
-/// * `alphabet`: A slice of characters representing the custom alphabet to be used in the UUID.
-/// * `length`: An unsigned integer representing the desired total length of the generated UUID.
-/// * `separator`: A character used to separate the UUID into segments.
-/// * `segments`: An unsigned integer representing the number of segments the UUID should be divided into.
+/// * `alphabet` - The alphabet to use for generating the NanoID.
+/// * `length` - The length of the NanoID to generate.
+/// * `separator` - The separator to use between segments.
+/// * `segments` - The number of segments to generate.
 ///
 /// # Returns
 ///
-/// This function returns a `String` containing the generated UUID, segmented by the provided separator.
+/// A segmented NanoID string.
 ///
-/// # Examples
+/// # Example
 ///
-/// ```rust
-/// use helpers::uuid::{Alphabet, uuid_segmented};
-///
-/// // Generate a segmented UUID using the default alphabet, length 15, separator '-', and 3 segments
-/// let segmented_uuid = uuid_segmented(&Alphabet::DEFAULT, 15, '-', 3);
-/// println!("Segmented UUID: {}", segmented_uuid);
 /// ```
-pub fn uuid_segmented(
+/// use helpers::uuid::{nanoid_segmented, Alphabet};
+///
+/// let id = nanoid_segmented(&Alphabet::DEFAULT, 15, '-', 3);
+/// println!("Generated segmented NanoID: {}", id);
+/// ```
+pub fn nanoid_segmented(
   alphabet: &[char],
   length: usize,
   separator: char,
@@ -133,42 +120,97 @@ pub fn uuid_segmented(
   segments_vec.join(&separator.to_string())
 }
 
+/// Generates a UUID v4.
+///
+/// # Returns
+///
+/// A UUID v4.
+///
+/// # Example
+///
+/// ```
+/// use helpers::uuid::uuid_v4;
+///
+/// let uuid = uuid_v4();
+/// println!("Generated UUID v4: {}", uuid);
+/// ```
+pub fn uuid_v4() -> Uuid {
+  Uuid::new_v4()
+}
+
+/// Generates a UUID v5 with the given namespace and name.
+///
+/// # Arguments
+///
+/// * `name` - The name to use for generating the UUID v5.
+///
+/// # Returns
+///
+/// A UUID v5.
+///
+/// # Example
+///
+/// ```
+/// use helpers::uuid::uuid_v5;
+/// use uuid::Uuid;
+///
+/// let name = b"example.com";
+/// let uuid = uuid_v5(name);
+/// println!("Generated UUID v5: {}", uuid);
+/// ```
+pub fn uuid_v5(name: &[u8]) -> Uuid {
+  Uuid::new_v5(&Uuid::NAMESPACE_DNS, name)
+}
+
 #[cfg(test)]
 mod tests {
-  use super::uuid;
-  use crate::uuid::{uuid_segmented, Alphabet};
+  use crate::uuid::{nanoid, nanoid_segmented, uuid_v4, uuid_v5, Alphabet};
 
   #[test]
-  fn test_uuid() {
+  fn test_nanoid() {
     // test pure number
-    let numbers = uuid(&Alphabet::NUMBERS, 8);
+    let numbers = nanoid(&Alphabet::NUMBERS, 8);
     println!("Numbers only: {}", numbers);
 
     // test lowercase
-    let lower = uuid(&Alphabet::LOWER, 8);
+    let lower = nanoid(&Alphabet::LOWER, 8);
     println!("Lowercase only: {}", lower);
 
     // test uppercase
-    let upper = uuid(&Alphabet::UPPER, 8);
+    let upper = nanoid(&Alphabet::UPPER, 8);
     println!("Uppercase only: {}", upper);
 
     // numbers + lowercase
-    let numbers_lower = uuid(&Alphabet::NUMBERS_LOWER, 8);
+    let numbers_lower = nanoid(&Alphabet::NUMBERS_LOWER, 8);
     println!("Numbers and Lowercase: {}", numbers_lower);
 
     // test safety character
-    let safe = uuid(&Alphabet::SAFE, 8);
+    let safe = nanoid(&Alphabet::SAFE, 8);
     println!("Safe chars: {}", safe);
 
     // test the default character set
-    let default = uuid(&Alphabet::DEFAULT, 8);
+    let default = nanoid(&Alphabet::DEFAULT, 8);
     println!("Default chars: {}", default);
 
     // test the delimited UUID
-    let segmented1 = uuid_segmented(&Alphabet::DEFAULT, 15, '-', 3);
+    let segmented1 = nanoid_segmented(&Alphabet::DEFAULT, 15, '-', 3);
     println!("Segmented UUID (3 parts): {}", segmented1);
 
-    let segmented2 = uuid_segmented(&Alphabet::SAFE, 16, '~', 5);
+    let segmented2 = nanoid_segmented(&Alphabet::SAFE, 16, '~', 5);
     println!("Segmented UUID (5 parts): {}", segmented2);
+  }
+
+  #[test]
+  fn test_uuid_v4() {
+    let uuid = uuid_v4();
+    assert_eq!(Some(uuid::Version::Random), uuid.get_version());
+    println!("{}", uuid);
+  }
+
+  #[test]
+  fn test_uuid_v5() {
+    let name = b"example.com";
+    let uuid = uuid_v5(name);
+    assert_eq!(uuid_v5(name), uuid);
   }
 }
