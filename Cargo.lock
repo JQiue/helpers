@@ -244,7 +244,7 @@ dependencies = [
 
 [[package]]
 name = "helpers"
-version = "0.5.5"
+version = "0.6.0"
 dependencies = [
  "base16ct",
  "bcrypt",
