@@ -22,7 +22,7 @@ bcrypt = "0.17.0"
 md-5 = "0.10.6"
 base16ct = { version = "0.2.0", features = ["alloc"] }
 blake3 = "1.6.1"
-uuid = "1.15.1"
+uuid = { version = "1.16.0", features = ["v4", "v5"] }
 
 [features]
 default = []
@@ -30,8 +30,6 @@ rand = []
 jwt = []
 hash = []
 uuid = []
-uuidv4 = ["uuid/v4"]
-uuidv5 = ["uuid/v5"]
 time = []
 
 [package.metadata.docs.rs]

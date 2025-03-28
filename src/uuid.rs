@@ -1,6 +1,5 @@
-use uuid::Uuid;
-
 pub use uuid::Error;
+use uuid::Uuid;
 
 pub struct Alphabet;
 
@@ -204,13 +203,11 @@ mod tests {
   fn test_uuid_v4() {
     let uuid = uuid_v4();
     assert_eq!(Some(uuid::Version::Random), uuid.get_version());
-    println!("{}", uuid);
   }
 
   #[test]
   fn test_uuid_v5() {
     let name = b"example.com";
-    let uuid = uuid_v5(name);
-    assert_eq!(uuid_v5(name), uuid);
+    assert_eq!(uuid_v5(name), uuid_v5(name));
   }
 }
