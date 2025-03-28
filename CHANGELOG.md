@@ -2,11 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.6.0](https://github.com/JQiue/helpers/compare/v0.5.5..0.6.0) - 2025-03-10
+## [0.6.1](https://github.com/JQiue/helpers/compare/v0.6.0..0.6.1) - 2025-03-28
+
+### 🐛 Bug Fixes
+
+- Corrected UUID generation in uuid.rs - ([e9f094b](https://github.com/JQiue/helpers/commit/e9f094bb8e5fcf5c4e03934ef1d7e59664fb9a10))
+
+## [0.6.0](https://github.com/JQiue/helpers/compare/v0.5.5..v0.6.0) - 2025-03-10
 
 ### 🚀 Features
 
 - *(uuid)* Add uuid v4 and v5 functions - ([db4b6a7](https://github.com/JQiue/helpers/commit/db4b6a7e250590afdc8b04a9f8fc13bf94c421b4))
+
+### ⚙️ Miscellaneous Tasks
+
+- Release helpers version 0.6.0 - ([b705c92](https://github.com/JQiue/helpers/commit/b705c923fb5227b5c271083b8980ee99bb8785ea))
 
 ## [0.5.5](https://github.com/JQiue/helpers/compare/v0.5.2..v0.5.5) - 2025-02-10
 
